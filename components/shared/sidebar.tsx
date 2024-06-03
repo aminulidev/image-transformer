@@ -39,7 +39,7 @@ const Sidebar = () => {
                             })}
                         </ul>
 
-                        <ul>
+                        <ul className="sidebar-nav_elements">
                             {navLinks.slice(6).map(link => {
                                 const isActive = link.route === pathname;
                                 return (
@@ -58,8 +58,10 @@ const Sidebar = () => {
                                 )
                             })}
 
-                            <li className="cursor-pointer gap-2 p-4">
-                                <UserButton afterSignOutUrl="/" showName/>
+                            <li className="sidebar-nav_element group cursor-pointer gap-2">
+                                <span className="sidebar-link">
+                                    <UserButton afterSignOutUrl="/" showName/>
+                                </span>
                             </li>
                         </ul>
                     </SignedIn>
