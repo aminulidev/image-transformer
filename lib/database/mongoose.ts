@@ -15,7 +15,7 @@ if (!cashed) {
     }
 }
 
-export const connectionToDatabase = async () => {
+export const connectToDatabase = async () => {
     if (cashed.conn) return cashed.conn;
 
     if (!MONGODB_URI) throw new Error('MongoDB URI is missing');
