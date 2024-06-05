@@ -1,30 +1,32 @@
-import mongoose, {Mongoose} from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URL = process.env.MONGODB_URL;
 
 interface MongooseConnection {
-    conn: Mongoose | null;
-    promise: Promise<Mongoose> | null;
+  conn: Mongoose | null;
+  promise: Promise<Mongoose> | null;
 }
 
-let cashed: MongooseConnection = (global as any).mongoose;
+let cached: MongooseConnection = (global as any).mongoose
 
-if (!cashed) {
-    cashed = (global as any).mongoose = {
-        conn: null, promise: null
-    }
+if(!cached) {
+  cached = (global as any).mongoose = { 
+    conn: null, promise: null 
+  }
 }
 
 export const connectToDatabase = async () => {
-    if (cashed.conn) return cashed.conn;
+  if(cached.conn) return cached.conn;
 
-    if (!MONGODB_URI) throw new Error('MongoDB URI is missing');
+  if(!MONGODB_URL) throw new Error('Missing MONGODB_URL');
 
-    cashed.promise = cashed.promise ||
-        mongoose.connect(MONGODB_URI,  {
-            dbName: "imaginify", bufferCommands: false
-        })
+  cached.promise = 
+    cached.promise || 
+    mongoose.connect(MONGODB_URL, { 
+      dbName: 'imaginify', bufferCommands: false 
+    })
 
-    cashed.conn = await cashed.promise;
-    return cashed.conn;
+  cached.conn = await cached.promise;
+
+  return cached.conn;
 }
